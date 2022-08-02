@@ -1,10 +1,23 @@
 import React from "react";
-function Stock({ stock }) {
-  console.log('stock in Stock component',stock)
-  const { ticker, name, price } = stock
+function Stock({ stock, addToPortfolio, sellIt, itIsIn }) {
+  const {ticker, name, price } = stock
+
+  // const handleBuyClick = () => {
+  //   addToPortfolio(stock)
+  // }
+
+  // const handleSellClick = () => {
+  //   sellIt(stock)
+  // }
+
+  const handleClick = (cat) => {
+    if (cat === 'stocks') { addToPortfolio(stock) }
+    if (cat === 'portfolio' ){sellIt(stock)}
+    }
+
 
   return (
-    <div>
+    <div onClick= {()=>handleClick(itIsIn)}>
       <div className="card">
         <div className="card-body">
           <h5 className="card-title"> { name } </h5>

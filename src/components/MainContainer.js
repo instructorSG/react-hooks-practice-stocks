@@ -5,24 +5,31 @@ import SearchBar from "./SearchBar";
 
 function MainContainer() {
   const [ stocks, setStocks ] = useState([])
-  const [portStocks, setPortStocks] = useState([])
+  const [portfolioStocks, setPortfolioStocks] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:3000/stocks')
+    fetch('http://localhost:3001/stocks')
       .then(res => res.json())
       .then(data => setStocks(data))
   }, [])
-console.log('stocks', stocks)//good
+
+  const addToPortfolio = (s) => {
+    setPortfolioStocks(prevPort => [ ...prevPort, s ])
+  }
+
+  const sellMyStock = (s) => {
+    setPortfolioStocks(pStocks=>pStocks.filter(stock=>stock.id!==s.id))
+  }
 
   return (
     <div>
       <SearchBar />
       <div className="row">
         <div className="col-8">
-          <StockContainer stocks={ stocks } />
+          <StockContainer addToPortfolio={ addToPortfolio }  stocks={ stocks } />
         </div>
         <div className="col-4">
-          <PortfolioContainer />
+          <PortfolioContainer portfolio={ portfolioStocks } sellMyStock={ sellMyStock } />
         </div>
       </div>
     </div>
